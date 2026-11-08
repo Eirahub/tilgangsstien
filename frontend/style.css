@@ -1,0 +1,297 @@
+@font-face { font-family: "Instrument Sans"; src: url("/fonts/instrument-sans-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("/fonts/instrument-sans-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("/fonts/instrument-sans-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("/fonts/instrument-serif-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+
+:root {
+  color-scheme: light dark;
+  --ground: #ffffff;
+  --surface: #f2f5f1; /* moss-grey, one level toward the ground beside a trail */
+  --raised: #ffffff;
+  --border: #e3e8e1;
+  --control: #cdd4ca;
+  --text: #1f201d;
+  --muted: #5a5e58;
+  --accent: #1b6e66;
+  --on-accent: #ffffff;
+  --trail: #bcc5b8;
+  --notice-bg: #fffbeb;
+  --notice-border: #fde68a;
+  --notice-ink: #7c3a0c;
+  --radius-card: 22px;
+  --radius-row: 16px;
+  --gap: 16px;
+  --pad: 20px;
+  --serif: "Instrument Serif", Georgia, serif;
+  --sans: "Instrument Sans", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #111311;
+    --surface: #1b1f1b;
+    --raised: #232823;
+    --border: #2e342e;
+    --control: #454d45;
+    --text: #f3f5f1;
+    --muted: #b4bab2;
+    --accent: #58c2b5;
+    --on-accent: #0c1f1c;
+    --trail: #4a524a;
+    --notice-bg: #2c2410;
+    --notice-border: #5c4a16;
+    --notice-ink: #fbdf9a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font: 400 16px/1.5 var(--sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, p, ol, ul { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+
+.kun-skjermleser {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.topp, .side, .bunn {
+  width: 100%;
+  max-width: 1132px; /* 1100px column + 16px gutters: 12 x 77 + 11 x 16 = 1100 */
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+.topp { padding-block: 16px 8px; }
+
+.merke {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.merke svg { width: 28px; height: 28px; fill: var(--accent); }
+.merke path { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; }
+
+/* Navigation */
+.steg-nav {
+  display: flex;
+  justify-content: space-between;
+  min-height: 44px;
+  margin-top: 8px;
+}
+
+.tekstknapp {
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.tekstknapp:hover { color: var(--accent); }
+
+/* The path */
+.sti { margin-top: 8px; min-height: 112px; }
+.sti svg { display: block; max-width: 100%; overflow: visible; }
+
+.sti-vei, .sti-lys { fill: none; stroke-linecap: round; }
+.sti-vei { stroke: var(--trail); stroke-width: 4; stroke-dasharray: 1 11; }
+.sti-lys { stroke: var(--accent); stroke-width: 5; transition: stroke-dashoffset 600ms cubic-bezier(.3, .7, .2, 1); }
+
+.stopp-prikk { fill: var(--ground); stroke: var(--trail); stroke-width: 3; }
+.stopp-passert .stopp-prikk,
+.stopp-her .stopp-prikk { fill: var(--accent); stroke: var(--accent); }
+.stopp-hake { fill: none; stroke: var(--on-accent); stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
+.stopp-ring { fill: none; stroke: var(--accent); stroke-width: 2.5; transform-box: fill-box; transform-origin: center; }
+.stopp-ring.tenn { animation: tenn 500ms 380ms both cubic-bezier(.3, .7, .2, 1); }
+
+@keyframes tenn {
+  from { opacity: 0; transform: scale(.4); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.stopp-navn, .stopp-valgt { font-size: 13px; fill: var(--muted); }
+.stopp-passert .stopp-valgt { fill: var(--text); }
+.stopp-her .stopp-navn { fill: var(--text); font-weight: 600; }
+.stopp-her .stopp-valgt { fill: var(--accent); font-weight: 600; }
+
+/* Step */
+.steg { margin-top: 32px; }
+
+h1 {
+  font: 400 clamp(32px, 5vw, 48px)/1.08 var(--serif);
+  letter-spacing: -0.01em;
+  outline: none;
+}
+
+.ingress { margin-top: 12px; max-width: 62ch; font-size: 18px; line-height: 1.45; }
+
+/* Choices */
+.valg {
+  display: grid;
+  gap: var(--gap);
+  margin-top: 28px;
+  grid-template-columns: 1fr;
+}
+
+.valg-knapp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 84px;
+  padding: 16px var(--pad);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-row);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms, background-color 120ms, transform 120ms;
+}
+.valg-knapp:hover:enabled { border-color: var(--accent); background: var(--raised); }
+.valg-knapp:active:enabled { transform: scale(.985); }
+.valg-knapp:disabled { background: none; cursor: default; }
+
+.valg-tekst { display: grid; gap: 2px; }
+.valg-tittel { font-size: 18px; font-weight: 600; line-height: 1.3; }
+.valg-beskrivelse { font-size: 15px; color: var(--muted); }
+
+.valg-pil {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 120ms;
+}
+.valg-knapp:hover .valg-pil { transform: translateX(3px); }
+
+.kommer {
+  flex: none;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.valg-knapp:focus-visible { border-radius: var(--radius-row); }
+
+/* Advice */
+.rad {
+  display: grid;
+  gap: var(--gap);
+  margin-top: 28px;
+  grid-template-columns: 1fr;
+}
+
+/* On a phone the two columns dissolve, so "who can help" comes right after the steps. */
+.kolonne { display: contents; }
+.flate-steg { order: 1; }
+.flate-hjelp { order: 2; }
+.flate-lenker { order: 3; }
+.flate-regler { order: 4; }
+
+.flate {
+  padding: var(--pad);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+.flate h2 { margin-bottom: 12px; font-size: 16px; font-weight: 600; }
+
+.varsel {
+  padding: 16px var(--pad);
+  border: 1px solid var(--notice-border);
+  border-radius: var(--radius-row);
+  background: var(--notice-bg);
+  color: var(--notice-ink);
+  font-weight: 500;
+}
+
+.steg-liste { display: grid; gap: 12px; counter-reset: steg; }
+.steg-liste li {
+  position: relative;
+  padding-left: 40px;
+  counter-increment: steg;
+  font-size: 17px;
+}
+.steg-liste li::before {
+  content: counter(steg);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--raised);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 28px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.kode {
+  margin: 10px 0 2px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--ground);
+  border: 1px solid var(--border);
+  font-family: ui-monospace, "Cascadia Code", "Consolas", monospace; /* taste-skill-ignore: real terminal commands */
+  font-size: 15px;
+  overflow-x: auto;
+}
+.kode code { white-space: pre; }
+
+.lenker { display: grid; gap: 14px; }
+.lenker a { color: var(--text); font-weight: 500; text-underline-offset: 3px; }
+.lenker a:hover { color: var(--accent); }
+.adresse { display: block; color: var(--muted); font-size: 14px; overflow-wrap: anywhere; }
+
+.regler { display: grid; gap: 8px; font-size: 15px; }
+
+/* Footer */
+.bunn { margin-top: 48px; padding-block: 16px 32px; color: var(--muted); font-size: 14px; }
+
+@media (min-width: 720px) {
+  .steg { margin-top: 40px; }
+  .valg { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .valg-3 > li { grid-column: span 4; }
+  .valg-4 > li { grid-column: span 6; }
+  .rad { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .varsel { grid-column: 1 / -1; }
+  .kolonne { display: flex; flex-direction: column; gap: var(--gap); }
+  .kolonne-bred { grid-column: span 7; }
+  .kolonne-smal { grid-column: span 5; }
+  .flate-lenker, .flate-regler { flex: 1; }
+  .sti { min-height: 148px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

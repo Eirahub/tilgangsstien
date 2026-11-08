@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="nb">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tilgangsstien</title>
+  <meta name="description" content="Kommer du ikke inn på pc-en? Følg stien til trygge råd.">
+  <link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topp">
+    <span class="merke">
+      <svg viewBox="0 0 28 28" aria-hidden="true">
+        <path d="M6 22c8 0 4-8 8-8s0-8 8-8"/>
+        <circle cx="6" cy="22" r="3"/>
+        <circle cx="22" cy="6" r="3"/>
+      </svg>
+      Tilgangsstien
+    </span>
+  </header>
+
+  <main class="side">
+    <nav id="steg-nav" class="steg-nav" aria-label="Flytt deg på stien"></nav>
+    <div id="sti" class="sti"></div>
+    <p id="sti-tekst" class="kun-skjermleser" aria-live="polite"></p>
+    <div id="steg" class="steg"></div>
+  </main>
+
+  <footer class="bunn">
+    <p>Tilgangsstien spør aldri om navn eller passord, og lagrer ingenting.</p>
+  </footer>
+  <noscript><p class="side">Veiviseren trenger JavaScript. Få hjelp av en voksen eller skolens IT-hjelp.</p></noscript>
+</body>
+</html>
